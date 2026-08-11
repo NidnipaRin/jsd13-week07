@@ -23,7 +23,29 @@ function updateCount() {
 //   - add the <li> to the TOP of the list using items.prepend(li)
 //   - clear the input
 //   - call updateCount()
+
+
 addItembtn.addEventListener("click", () => {
-    const val = itemInput.ariaValueMax.trim()
-    if (val === "")
-})
+  const val = itemInput.value.trim(); //อ่านค่าจาก input และตัดช่องว่าง
+
+  if (val === "") { 
+    return;
+  }   // ถ้าเป็นค่าว่าง ให้หยุดทำงานทันที
+
+  
+  const li = document.createElement("li"); //สร้าง <li> ใหม่ แล้วใส่ข้อความลงไป
+  li.textContent = val;
+
+  li.addEventListener("click", () => {  //click listener ให้ <li> เพื่อลบตัวเองเมื่อโดนคลิก และอัปเดตจำนวน
+    li.remove();
+    updateCount();
+  });
+
+  items.prepend(li);
+
+
+  itemInput.value = "";
+
+
+  updateCount();   //อัปเดตจำนวนนับทั้งหมด
+});

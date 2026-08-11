@@ -1,7 +1,7 @@
 // 1. ตั้งตัวแปรนับคะแนนเริ่มต้น
 let clicks = 0;
 let autoClickRate = 0;
-
+let isFinished = false; //ป้องกันพลุยิงซ้ำรัวๆ
 
 // 2. ดึง Element จาก HTML มาเตรียมใช้งาน
 const bunBtn = document.getElementById('bunBtn');
@@ -40,32 +40,54 @@ function checkAutoClick() {
 }
 
 
-//ปลดล็อกไอเทมตามคะแนน
-const unlocks = [
-  { id: 'item-10', displayId: 'display-10', target: 10 },
-  { id: 'item-50', displayId: 'display-50', target: 50 },
-  { id: 'item-100', displayId: 'display-100', target: 100 },
-  { id: 'item-150', displayId: 'display-150', target: 150 }
+// กำหนด Mapping 7 Steps ให้ตรงกันทั้งการ์ดขวา และ รูปภาพกลาง
+const stepsData = [
+  { itemId: 'item-step1', displayId: 'display-step1', target: 10 },
+  { itemId: 'item-step2', displayId: 'display-step2', target: 50 },
+  { itemId: 'item-step3', displayId: 'display-step3', target: 100 },
+  { itemId: 'item-step4', displayId: 'display-step4', target: 200 },
+  { itemId: 'item-step5', displayId: 'display-step5', target: 350 },
+  { itemId: 'item-step6', displayId: 'display-step6', target: 500 },
+  { itemId: 'item-step7', isFinal: true, target: 1000 } // ภาพที่ 7 ปลายทาง
 ];
 
 function checkUnlocks() {
-  unlocks.forEach(item => {
-    // ใช้ if เช็กว่าคะแนนปัจจุบันถึงเป้าหมายหรือยัง
-    if (clicks >= item.target) {
-      
-      // 1. ปลดล็อกการ์ดฝั่งขวา (เติม class 'unlocked')
-      const cardEl = document.getElementById(item.id);
-      if (cardEl) {
-        cardEl.classList.add('unlocked');
-      }
+  stepsData.forEach(step => {
+    if (clicks >= step.target) {
+      // 1. ปลดล็อกการ์ดฝั่งขวา
+      const cardEl = document.getElementById(step.itemId);
+      if (cardEl) cardEl.classList.add('unlocked');
 
-      // 2. แสดงรูปภาพตรงกลาง (เติม class 'show')
-      const displayEl = document.getElementById(item.displayId);
-      if (displayEl) {
-        displayEl.classList.add('show');
+      // 2. ปลดล็อกรูปตรงกลาง (เฉพาะสเตป 1-6)
+      if (!step.isFinal) {
+        const displayEl = document.getElementById(step.displayId);
+        if (displayEl) displayEl.classList.add('show');
       }
     }
   });
+
+  // 3. เช็กเป้าหมายสูงสุด Step 7
+  const finalStep = stepsData.find(s => s.isFinal);
+  if (clicks >= finalStep.target && !isFinished) {
+    isFinished = true; // ล็อกไว้ทันทีว่าจุดพลุแล้ว ให้ทำงานท่อนนี้แค่ครั้งเดียวพอ
+
+    const stepsContainer = document.getElementById('stepsContainer');
+    const recipeContainer = document.getElementById('recipeContainer');
+    const statusText = document.getElementById('progressStatus');
+
+    if (stepsContainer) stepsContainer.style.display = 'none';
+    if (recipeContainer) recipeContainer.classList.add('active');
+    if (statusText) statusText.textContent = "🎉 ยินดีด้วย! คุณสำเร็จการทำขนมและปลดล็อกสูตรลับฉบับเต็มแล้ว!";
+
+    // --- จุดพลุฉลองจบเกมตรงนี้ ---
+    if (typeof confetti === 'function') {
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+    }
+  }
 }
 
 //เอฟเฟกต์ตัวเลข +1 ลอยตามเมาส์

@@ -32,62 +32,100 @@
   <div class="center-panel">
     <div class="title-box">
       <h2>THE RINGREDIENTS</h2>
-      <p>คลิกที่ขนมปังเพื่ออบขนมและขยายกิจการร้านเบเกอรี่ของเรากัน!!</p>
+      <p id="progressStatus">คลิกที่ขนมปังเพื่อผสมวัตถุดิบและปลดล็อกขั้นตอนการทำขนมกัน!!</p>
     </div>
 
-    <div class="display-area">
-      <div id="display-10" class="unlocked-img-box">
-        <img src="unlock_10.png" alt="Reward 10" />
+    <!-- พื้นที่แสดงขั้นตอน 1-6 -->
+    <div id="stepsContainer" class="steps-grid">
+      <div id="display-step1" class="step-card">
+        <img src="step1.png" alt="Step 1" />
       </div>
-      <div id="display-50" class="unlocked-img-box">
-        <img src="unlock_50.png" alt="Reward 50" />
+      <div id="display-step2" class="step-card">
+        <img src="step2.png" alt="Step 2" />
       </div>
-      <div id="display-100" class="unlocked-img-box">
-        <img src="unlock_100.png" alt="Reward 100" />
+      <div id="display-step3" class="step-card">
+        <img src="step3.png" alt="Step 3" />
       </div>
-      <div id="display-150" class="unlocked-img-box">
-        <img src="unlock_150.png" alt="Reward 150" />
+      <div id="display-step4" class="step-card">
+        <img src="step4.png" alt="Step 4" />
       </div>
+      <div id="display-step5" class="step-card">
+        <img src="step5.png" alt="Step 5" />
+      </div>
+      <div id="display-step6" class="step-card">
+        <img src="step6.png" alt="Step 6" />
+      </div>
+    </div>
+
+    <!-- พื้นที่แสดงสูตรขนมภาพที่ 7 (จะโชว์แทนภาพทั้งหมดเมื่อถึงปลายทาง) -->
+    <div id="recipeContainer" class="recipe-full-box">
+      <img src="step7.png" alt="Final Strawberry Bun Recipe" />
     </div>
   </div>
 
-  <!-- คอลัมน์ขวา: รายการ Unlocks -->
+  <!-- คอลัมน์ขวา: รายการ Unlocks 7 Steps -->
   <div class="right-panel">
-    <h3>UNLOCKS</h3>
+    <h3>RECIPE MILESTONES</h3>
     
-    <div id="item-10" class="shop-item">
-      <img src="icon_bun_8bit.png" alt="Item 10" />
+    <div id="item-step1" class="shop-item">
+      <img src="icon_ingredients_8bit.png" alt="Step 1" />
       <div class="item-info">
-        <h4>Strawberry Whip</h4>
+        <h4>Step 1: Prep Flour</h4>
         <p>10 Buns</p>
       </div>
     </div>
 
-    <div id="item-50" class="shop-item">
-      <img src="icon_ingredients_8bit.png" alt="Item 50" />
+    <div id="item-step2" class="shop-item">
+      <img src="icon_knead_8bit.png" alt="Step 2" />
       <div class="item-info">
-        <h4>Flour Bag</h4>
+        <h4>Step 2: Knead Dough</h4>
         <p>50 Buns (Auto Click)</p>
       </div>
     </div>
 
-    <div id="item-100" class="shop-item">
-      <img src="icon_staff_8bit.png" alt="Item 100" />
+    <div id="item-step3" class="shop-item">
+      <img src="icon_preshape_8bit.png" alt="Step 3" />
       <div class="item-info">
-        <h4>Special Jam</h4>
+        <h4>Step 3: Filling & Shaping Buns</h4>
         <p>100 Buns</p>
       </div>
     </div>
 
-    <div id="item-150" class="shop-item">
-      <img src="icon_customers_8bit.png" alt="Item 150" />
+    <div id="item-step4" class="shop-item">
+      <img src="icon_bake_8bit.png" alt="Step 4" />
       <div class="item-info">
-        <h4>Bakery Master</h4>
-        <p>150 Buns</p>
+        <h4>Step 4: Oven Baking</h4>
+        <p>200 Buns</p>
+      </div>
+    </div>
+
+    <div id="item-step5" class="shop-item">
+      <img src="icon_deco_8bit.png" alt="Step 5" />
+      <div class="item-info">
+        <h4>Step 5: Glazing & Decorating</h4>
+        <p>350 Buns</p>
+      </div>
+    </div>
+
+    <div id="item-step6" class="shop-item">
+      <img src="icon_enjoy_8bit.png" alt="Step 6" />
+      <div class="item-info">
+        <h4>Step 6: Enjoy!!!!</h4>
+        <p>500 Buns</p>
+      </div>
+    </div>
+
+    <div id="item-step7" class="shop-item final-milestone">
+      <img src="icon_bun_8bit.png" alt="Step 7" />
+      <div class="item-info">
+        <h4>Step 7: Secret Recipe!</h4>
+        <p>1000 Buns (Final Target)</p>
       </div>
     </div>
   </div>
 
+  <!-- ใส่ Library พลุกระดาษสำเร็จรูป-->>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
