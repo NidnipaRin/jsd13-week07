@@ -1,0 +1,109 @@
+/* ==========================================
+   1. จัดเลย์เอาต์หน้าเว็บเบื้องต้น
+   ========================================== */
+body {
+    font-family: sans-serif;
+    background-color: #f0f2f5;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ปุ่มกด Find New Pokemon */
+#btn-pokemon {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #ff5350;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+#btn-pokemon:hover {
+    background-color: #e0423f;
+}
+
+#btn-pokemon:active {
+    transform: scale(0.98);
+}
+
+/* พื้นที่แสดงการ์ดทั้งหมด */
+#pokedex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* ==========================================
+   2. โครงสร้างกรอบการ์ดหลัก
+   ========================================== */
+.card {
+    width: 250px;
+    height: 350px;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    
+    /* สำคัญ: เพื่อให้องค์ประกอบข้างในการ์ดอ้างอิงตำแหน่ง absolute ได้ */
+    position: relative; 
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+
+    /* ใส่รูปพื้นหลังการ์ด */
+    background-image: url('card-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Effect เวลาเอาเมาส์ไปวางบนการ์ด */
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* ==========================================
+   3. จัดตำแหน่งองค์ประกอบภายใน การ์ด
+   ========================================== */
+
+/* ชื่อโปเกมอน - จัดวางในแถบสีเหลืองมุมซ้ายบน */
+.card p {
+    position: absolute;
+    top: 12px;
+    left: 45px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+    text-transform: capitalize;
+    z-index: 10;
+}
+
+/* เลข ID โปเกมอน - จัดวางมุมขวาบน ตัวอักษรสีขาว */
+.pokemon-id {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+    z-index: 10;
+}
+
+/* รูปตัวโปเกมอน - จัดวางตรงกลางการ์ด */
+.card img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    width: 160px;
+    height: 160px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
