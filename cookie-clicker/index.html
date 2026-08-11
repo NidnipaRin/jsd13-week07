@@ -1,105 +1,89 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Strawberry Bun Clicker</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strawberry Bun Clicker - The Ringredients</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- 1. ฝั่งซ้าย: Click & Info Panel -->
-  <div class="left-panel" id="clickPanel">
-    <div class="header-info">
-      <span class="sub-title">THE RINGREDIENTS BAKERY CONTROL</span>
-      <!-- ตัวเลขที่จะให้ JS มาอัปเดต -->
+  <!-- คอลัมน์ซ้าย: ปุ่มกดและคะแนน -->
+  <div class="left-panel">
+    <div class="header-box">
+      <h2>THE RINGREDIENTS BAKERY CONTROL</h2>
       <h1 id="clickCount">0</h1>
-      <span class="unit-text">Strawberry Buns Baked</span>
+      <p class="sub-text">Strawberry Buns Baked</p>
       <p class="rate-text">Baking Rate: <span id="bakeRate">0</span> / sec</p>
     </div>
 
-    <div class="main-bun-container">
-      <!-- ปุ่มขนมปังหลักสำหรับกดคลิก -->
-      <img src="strawberrybun.png" alt="Strawberry Bun" class="main-bun" id="bunBtn">
+    <!-- ปุ่มขนมปังหลัก -->
+    <div class="bun-container">
+      <img id="bunBtn" src="strawberrybun.png" alt="Strawberry Bun" />
     </div>
 
-    <div class="footer-info">
-      <p class="quote">" Freshly baked with love, strawberries & sweetness... "</p>
-      <div class="disclaimer">
-        <strong>Disclaimer:</strong> Welcome to The Ringredients...
-      </div>
-      <div class="slogan">May the Sweetness be with you</div>
-      <div class="game-title">STRAWBERRY BUN CLICKER!</div>
-      <div class="author">by Rin</div>
+    <div class="footer-quote">
+      <p>" Freshly baked with love, strawberries & sweetness... "</p>
+      <small>Disclaimer: Welcome to The Ringredients...<br>STRAWBERRY BUN CLICKER! by Rin</small>
     </div>
   </div>
 
-
-  <!-- 2. ฝั่งกลาง: Story & Unlocked Display Area -->
+  <!-- คอลัมน์กลาง: รูปรางวัลเมื่อปลดล็อก -->
   <div class="center-panel">
-    
-    <!-- ภาพปลดล็อก 10 Clicks -->
-    <div class="unlocked-img-box" id="display-10">
-      <img src="unlock_10.png" alt="10 Clicks Reward">
+    <div class="title-box">
+      <h2>THE RINGREDIENTS</h2>
+      <p>คลิกที่ขนมปังเพื่ออบขนมและขยายกิจการร้านเบเกอรี่ของเรากัน!!</p>
     </div>
 
-    <!-- ภาพปลดล็อก 50 Clicks -->
-    <div class="unlocked-img-box" id="display-50">
-      <img src="unlock_50.png" alt="50 Clicks Reward">
+    <div class="display-area">
+      <div id="display-10" class="unlocked-img-box">
+        <img src="unlock_10.png" alt="Reward 10" />
+      </div>
+      <div id="display-50" class="unlocked-img-box">
+        <img src="unlock_50.png" alt="Reward 50" />
+      </div>
+      <div id="display-100" class="unlocked-img-box">
+        <img src="unlock_100.png" alt="Reward 100" />
+      </div>
+      <div id="display-150" class="unlocked-img-box">
+        <img src="unlock_150.png" alt="Reward 150" />
+      </div>
     </div>
-
-    <!-- กล่องข้อความหลัก -->
-    <div class="story-card">
-      <h2>STRAWBERRY BAKERY</h2>
-      <p>คลิกที่ขนมปังเพื่ออบขนมและขยายกิจการร้านขนมปังของคุณ!</p>
-    </div>
-
-    <!-- ภาพปลดล็อก 100 Clicks -->
-    <div class="unlocked-img-box" id="display-100">
-      <img src="unlock_100.png" alt="100 Clicks Reward">
-    </div>
-
-    <!-- ภาพปลดล็อก 150 Clicks -->
-    <div class="unlocked-img-box" id="display-150">
-      <img src="unlock_150.png" alt="150 Clicks Reward">
-    </div>
-
   </div>
 
-
- <!-- 3. ฝั่งขวา: Unlocks / Shop Panel -->
+  <!-- คอลัมน์ขวา: รายการ Unlocks -->
   <div class="right-panel">
-    <div class="shop-title">UNLOCKS</div>
-
-    <div class="shop-item" id="item-10">
-      <img src="icon_bun_8bit.png" alt="Bun Icon">
+    <h3>UNLOCKS</h3>
+    
+    <div id="item-10" class="shop-item">
+      <img src="icon_bun_8bit.png" alt="Item 10" />
       <div class="item-info">
-        <h3>10 Clicks</h3>
-        <p>เปิดร้านขนมปังวันแรก</p>
+        <h4>Strawberry Whip</h4>
+        <p>10 Buns</p>
       </div>
     </div>
 
-    <div class="shop-item" id="item-50">
-      <img src="icon_ingredients_8bit.png" alt="Ingredients">
+    <div id="item-50" class="shop-item">
+      <img src="icon_ingredients_8bit.png" alt="Item 50" />
       <div class="item-info">
-        <h3>50 Clicks</h3>
-        <p>วัตถุดิบพรีเมียม (ปลดล็อก Auto Click +1/sec! 🍓)</p>
+        <h4>Flour Bag</h4>
+        <p>50 Buns (Auto Click)</p>
       </div>
     </div>
 
-    <div class="shop-item" id="item-100">
-      <img src="icon_staff_8bit.png" alt="Staff">
+    <div id="item-100" class="shop-item">
+      <img src="icon_staff_8bit.png" alt="Item 100" />
       <div class="item-info">
-        <h3>100 Clicks</h3>
-        <p>จ้างเชฟและพนักงานขายประจำร้าน</p>
+        <h4>Special Jam</h4>
+        <p>100 Buns</p>
       </div>
     </div>
 
-    <div class="shop-item" id="item-150">
-      <img src="icon_customers_8bit.png" alt="Customers">
+    <div id="item-150" class="shop-item">
+      <img src="icon_customers_8bit.png" alt="Item 150" />
       <div class="item-info">
-        <h3>150 Clicks</h3>
-        <p>ลูกค้าต่อคิวแน่นร้าน!</p>
+        <h4>Bakery Master</h4>
+        <p>150 Buns</p>
       </div>
     </div>
   </div>

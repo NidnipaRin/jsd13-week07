@@ -1,9 +1,215 @@
-body {
-  display: flex;
-  height: 100vh; /* ความสูงเต็มหน้าจอ */
+/* ==========================================
+   1. RESET & GLOBAL STYLES
+   ========================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  font-family: 'Courier New', Courier, monospace;
 }
 
-/* กำหนดสัดส่วนความกว้างของแต่ละฝั่ง */
-.left-panel   { flex: 1.2; }
-.center-panel { flex: 1.2; }
-.right-panel  { flex: 1; }
+body {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: #fce4ec url('bg.png') no-repeat center center / cover;
+  color: #4a4a4a;
+  overflow: hidden;
+}
+
+/* ล็อกไม่ให้รูปภาพขยายดันหน้าจอมั่ว */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==========================================
+   2. LAYOUT 3 COLUMNS
+   ========================================== */
+.left-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.center-panel {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  gap: 20px;
+}
+
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 30px 20px;
+  overflow-y: auto;
+}
+
+/* ==========================================
+   3. LEFT PANEL & BUN BUTTON
+   ========================================== */
+.header-box h2 {
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+#clickCount {
+  font-size: 3.5rem;
+  color: #d81b60;
+  margin: 10px 0 5px;
+}
+
+.sub-text { font-weight: bold; }
+.rate-text { margin-top: 5px; color: #777; }
+
+.bun-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+/* ปุ่มขนมปัง + เอฟเฟกต์หมุนดึ๋ง */
+#bunBtn {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 500px;
+  height: 500px;
+  object-fit: contain;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* เอาเมาส์ชี้: ขยาย + หมุนเอียงขวา 12 องศา */
+#bunBtn:hover {
+  transform: scale(1.08) rotate(12deg);
+}
+
+/* กดคลิก: ยุบตัว + หมุนเอียงซ้าย -10 องศา */
+#bunBtn:active {
+  transform: scale(0.88, 0.82) rotate(-10deg);
+}
+
+.footer-quote {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* ==========================================
+   4. CENTER PANEL (REWARDS DISPLAY)
+   ========================================== */
+.title-box {
+  text-align: center;
+}
+
+.display-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* รูปรางวัลตรงกลาง: ปกติซ่อนไว้ */
+.unlocked-img-box {
+  width: 100%;
+  max-width: 280px;
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8);
+  transition: all 0.5s ease;
+}
+
+.unlocked-img-box img {
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* เมื่อ JS เติม class 'show' ให้โผ่ขึ้นมา */
+.unlocked-img-box.show {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+/* ==========================================
+   5. RIGHT PANEL (SHOP CARDS)
+   ========================================== */
+.right-panel h3 {
+  letter-spacing: 1px;
+}
+
+.shop-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  opacity: 0.35;
+  filter: grayscale(100%);
+  transition: all 0.3s ease;
+}
+
+.shop-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+/* เมื่อ JS เติม class 'unlocked' ให้คืนสีสัน */
+.shop-item.unlocked {
+  opacity: 1;
+  filter: grayscale(0%);
+  background: rgba(255, 255, 255, 0.85);
+  border-color: #ffb7c5;
+}
+
+/* ==========================================
+   6. FLOATING +1 EFFECT
+   ========================================== */
+.float-text {
+  position: absolute;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #d81b60;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  animation: floatUp 0.8s ease-out forwards;
+  z-index: 999;
+}
+
+.float-text img {
+  width: 22px;
+  height: 22px;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(1.2) rotate(-15deg);
+  }
+}
