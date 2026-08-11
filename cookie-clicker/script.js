@@ -1,62 +1,61 @@
-// 1. ตั้งตัวแปรนับคะแนนเริ่มต้น
+// ประกาศตัวแปรรอไว้
+// ===================================================
 let clicks = 0;
 let autoClickRate = 0;
-let isFinished = false; //ป้องกันพลุยิงซ้ำรัวๆ
+let isFinished = false; // ป้องกันพลุยิงซ้ำรัวๆ ตอนจบเกม
+let autoInterval = null;
 
-// 2. ดึง Element จาก HTML มาเตรียมใช้งาน
+
+// ประกาศตัวแปร DOM (ดึง ID bakeRate ให้ตรงกับ HTML)
+// ===================================================
 const bunBtn = document.getElementById('bunBtn');
 const clickCountDisplay = document.getElementById('clickCount');
 const bakeRateDisplay = document.getElementById('bakeRate');
 
 
-// 3. UI Update Function
-// แบบเดิม (Manual Click Only) เขียนแบบนี้ได้ แต่พอเพิ่ม Auto-click โค้ดจะเริ่มซ้ำซ้อน จึงต้องแยกฟังก์ชัน updateDisplay() จะได้ไม่ต้องเขียนซ้ำหลายอัน
-/*
-bunBtn.addEventListener("click", (event) => {
-  clicks++; //อัปเดต Data บวกคะแนนเพิ่มทีละ 1
-  clickCountDisplay.textContent = clicks; //อัปเดต UI เอาตัวเลขใหม่ไปแปะบนหน้าจอ
-});
-*/
-
-function updateDisplay() {
-  clickCountDisplay.textContent = clicks;
-  bakeRateDisplay.textContent = autoClickRate;
-}
-
-//ระบบออโต้คลิก
-function checkAutoClick() {
-  // เงื่อนไข: คะแนนถึง 50 และยังไม่เคยเปิด Auto Click (autoClickRate ยังเป็น 0 อยู่)
-  if (clicks >= 50 && autoClickRate === 0) {
-    autoClickRate = 1; // กำหนดอัตราเป็น 1 ชิ้น/วินาที
-    updateDisplay();   // อัปเดตหน้าจอทันที
-
-    // สั่งให้ทำงานซ้ำทุกๆ 1,000 มิลลิวินาที (1 วินาที)
-    setInterval(() => {
-      clicks += autoClickRate;   // บวกคะแนนเพิ่มตามอัตรา
-      updateDisplay();          // อัปเดตตัวเลขใหม่บนหน้าจอ
-      checkUnlocks();           //จุดที่เช็กเมื่อ Auto Click ทำงานทุกวินาที
-    }, 1000);
-  }
-}
-
-
-// กำหนด Mapping 7 Steps ให้ตรงกันทั้งการ์ดขวา และ รูปภาพกลาง
+// สเตปการให้คะแนนตอนคลิก
+// ===================================================
 const stepsData = [
-  { itemId: 'item-step1', displayId: 'display-step1', target: 10 },
-  { itemId: 'item-step2', displayId: 'display-step2', target: 50 },
-  { itemId: 'item-step3', displayId: 'display-step3', target: 100 },
-  { itemId: 'item-step4', displayId: 'display-step4', target: 200 },
-  { itemId: 'item-step5', displayId: 'display-step5', target: 350 },
-  { itemId: 'item-step6', displayId: 'display-step6', target: 500 },
-  { itemId: 'item-step7', isFinal: true, target: 1000 } // ภาพที่ 7 ปลายทาง
+  { itemId: 'item-step1', displayId: 'display-step1', target: 10,   rateBonus: 0 },
+  { itemId: 'item-step2', displayId: 'display-step2', target: 50,   rateBonus: 1 },  // +1/sec (เริ่ม Auto)
+  { itemId: 'item-step3', displayId: 'display-step3', target: 100,  rateBonus: 2 },  // +2/sec (รวมเป็น 3)
+  { itemId: 'item-step4', displayId: 'display-step4', target: 200,  rateBonus: 5 },  // +5/sec (รวมเป็น 8)
+  { itemId: 'item-step5', displayId: 'display-step5', target: 350,  rateBonus: 10 }, // +10/sec (รวมเป็น 18)
+  { itemId: 'item-step6', displayId: 'display-step6', target: 500,  rateBonus: 20 }, // +20/sec (รวมเป็น 38)
+  { itemId: 'item-step7', isFinal: true,             target: 1000, rateBonus: 0 }  // Final 
 ];
 
+
+// UI UPDATER
+// ===================================================
+function updateDisplay() {
+  clickCountDisplay.textContent = Math.floor(clicks);
+  if (bakeRateDisplay) {
+    bakeRateDisplay.textContent = autoClickRate;
+  }
+  
+  // โชว์คะแนนบน Tab เบราว์เซอร์
+  document.title = `🍞 (${Math.floor(clicks)}) Strawberry Bun Clicker`;
+}
+
+
+// UNLOCKS แต่ละขั้น และ ไฟนอล ยิงพลุปุ้งๆ
+// ===================================================
 function checkUnlocks() {
   stepsData.forEach(step => {
     if (clicks >= step.target) {
       // 1. ปลดล็อกการ์ดฝั่งขวา
       const cardEl = document.getElementById(step.itemId);
-      if (cardEl) cardEl.classList.add('unlocked');
+      if (cardEl && !cardEl.classList.contains('unlocked')) {
+        cardEl.classList.add('unlocked');
+        
+        // ถ้า Step นั้นมีโบนัส Auto Click ให้บวกสปีดเพิ่ม
+        if (step.rateBonus > 0) {
+          autoClickRate += step.rateBonus;
+          updateDisplay();
+          startAutoClickLoop();
+        }
+      }
 
       // 2. ปลดล็อกรูปตรงกลาง (เฉพาะสเตป 1-6)
       if (!step.isFinal) {
@@ -66,57 +65,90 @@ function checkUnlocks() {
     }
   });
 
-  // 3. เช็กเป้าหมายสูงสุด Step 7
+  // 3. เช็กเป้าหมายสูงสุด Step 7 (แสดงปุ่มกดรับรางวัลเมื่อครบ 1000 ครั้ง)
   const finalStep = stepsData.find(s => s.isFinal);
   if (clicks >= finalStep.target && !isFinished) {
-    isFinished = true; // ล็อกไว้ทันทีว่าจุดพลุแล้ว ให้ทำงานท่อนนี้แค่ครั้งเดียวพอ
+    isFinished = true; // ล็อกไม่ให้สร้างปุ่มซ้ำรัวๆ
 
-    const stepsContainer = document.getElementById('stepsContainer');
-    const recipeContainer = document.getElementById('recipeContainer');
-    const statusText = document.getElementById('progressStatus');
+    const rewardContainer = document.getElementById('rewardButtonContainer');
+    if (rewardContainer && !document.getElementById('rewardBtn')) {
+      const rewardBtn = document.createElement('button');
+      rewardBtn.id = 'rewardBtn';
+      rewardBtn.className = 'reward-btn';
+      rewardBtn.textContent = 'ปลดล็อกสูตรลับขั้นสุดยอด คลิกเลย!!!!! ';
+      
+      // เมื่อผู้ใช้กดปุ่มรับรางวัล ให้ซ่อนตารางรูป 1-6 และปุ่ม แล้วแสดงภาพที่ 7 พร้อมยิงพลุ
+      rewardBtn.addEventListener('click', () => {
+        rewardBtn.remove(); // ลบปุ่มออก
 
-    if (stepsContainer) stepsContainer.style.display = 'none';
-    if (recipeContainer) recipeContainer.classList.add('active');
-    if (statusText) statusText.textContent = "🎉 ยินดีด้วย! คุณสำเร็จการทำขนมและปลดล็อกสูตรลับฉบับเต็มแล้ว!";
+        const stepsContainer = document.getElementById('stepsContainer');
+        const recipeContainer = document.getElementById('recipeContainer');
+        const statusText = document.getElementById('progressStatus');
 
-    // --- จุดพลุฉลองจบเกมตรงนี้ ---
-    if (typeof confetti === 'function') {
-      confetti({
-        particleCount: 150,
-        spread: 80,
-        origin: { y: 0.6 }
+        if (stepsContainer) stepsContainer.style.display = 'none';
+        if (recipeContainer) recipeContainer.classList.add('active');
+        if (statusText) statusText.textContent = "🎉 ยินดีด้วย! คุณสำเร็จการทำขนมและปลดล็อกสูตรลับฉบับเต็มแล้ว!";
+
+        // ยิงพลุกระดาษถ้ามี Library canvas-confetti
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 150,
+            spread: 80,
+            origin: { y: 0.6 }
+          });
+        }
       });
+
+      rewardContainer.appendChild(rewardBtn);
     }
   }
 }
 
-//เอฟเฟกต์ตัวเลข +1 ลอยตามเมาส์
-function createFloatingEffect(x, y) {
-    // 1. สร้าง HTML <div> ขึ้นมากลางอากาศด้วย JS
-    const floatEl = document.createElement('div');
-    floatEl.className = 'float-text';
-    
-    // 2. สุ่มรูปไอคอน แปะคู่กับtext +1
-    const icons = ['icon_bun_8bit.png', 'icon_strawberry_8bit.png', 'icon_ingredients_8bit.png'];
-    const miniImgSrc = icons[Math.floor(Math.random() * icons.length)];
-    floatEl.innerHTML = `+1 <img src="${miniImgSrc}" alt="mini icon" />`;
 
-    // 3. วางตำแหน่งให้ตรงกับพิกัดเมาส์ (x, y) ที่ผู้ใช้กด
-    floatEl.style.left = `${x - 20}px`;
-    floatEl.style.top = `${y - 20}px`;
-
-    // 4. แปะ Element ลงหน้าเว็บ แล้วสั่งลบพร่องออกเมื่อแอนิเมชันเล่นจบ (800ms ประมาณ 0.8วิ)
-    document.body.appendChild(floatEl);
-    setTimeout(() => {
-        floatEl.remove();
-    }, 800);
+// ลูป AUTO CLICK
+// ===================================================
+function startAutoClickLoop() {
+  if (!autoInterval) {
+    autoInterval = setInterval(() => {
+      if (autoClickRate > 0) {
+        clicks += autoClickRate;
+        updateDisplay();
+        checkUnlocks();
+      }
+    }, 1000);
+  }
 }
 
-// ทุกครั้งที่คลิก ให้เช็กระบบ Auto Click และ เช็ก Unlock ด้วย
-bunBtn.addEventListener("click", (event) => {
-  clicks++;
-  updateDisplay();
-  createFloatingEffect(event.clientX, event.clientY); //ส่งพิกัดเมาส์ไปสร้างเอฟเฟกต์
-  checkAutoClick(); // เรียกใช้โค้ดตรงนี้
-  checkUnlocks(); // จุดที่เช็กเมื่อผู้เล่นกดคลิก
-});
+
+// FLOATING EFFECT (+1 ANIMATION)
+// ===================================================
+function createFloatingEffect(x, y) {
+  const floatEl = document.createElement('div');
+  floatEl.className = 'float-text';
+  
+  // สุ่มรูปไอคอนแปะคู่กับ +1
+  const icons = ['icon_bun_8bit.png', 'icon_ingredients_8bit.png', 'icon_knead_8bit.png', 'icon_bake_8bit.png'];
+  const miniImgSrc = icons[Math.floor(Math.random() * icons.length)];
+  floatEl.innerHTML = `+1 <img src="${miniImgSrc}" alt="mini icon" />`;
+
+  // วางตำแหน่งตามพิกัดเมาส์
+  floatEl.style.left = `${x - 20}px`;
+  floatEl.style.top = `${y - 20}px`;
+
+  document.body.appendChild(floatEl);
+  setTimeout(() => {
+    floatEl.remove();
+  }, 800);
+}
+
+
+// EVENT LISTENERS
+// ===================================================
+if (bunBtn) {
+  bunBtn.addEventListener('click', (event) => {
+    clicks++;
+    updateDisplay();
+    createFloatingEffect(event.clientX, event.clientY);
+    checkUnlocks();
+  });
+}
