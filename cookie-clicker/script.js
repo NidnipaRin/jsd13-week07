@@ -32,19 +32,12 @@ function checkAutoClick() {
 
     // สั่งให้ทำงานซ้ำทุกๆ 1,000 มิลลิวินาที (1 วินาที)
     setInterval(() => {
-      clicks += autoClickRate; // บวกคะแนนเพิ่มตามอัตรา
+      clicks += autoClickRate;   // บวกคะแนนเพิ่มตามอัตรา
       updateDisplay();          // อัปเดตตัวเลขใหม่บนหน้าจอ
+      checkUnlocks();           //จุดที่เช็กเมื่อ Auto Click ทำงานทุกวินาที
     }, 1000);
   }
 }
-
-
-// ทุกครั้งที่คลิก ให้เช็กระบบ Auto Click ด้วย
-bunBtn.addEventListener("click", (event) => {
-  clicks++;
-  updateDisplay();
-  checkAutoClick(); // เรียกใช้โค้ดตรงนี้
-});
 
 
 //ปลดล็อกไอเทมตามคะแนน
@@ -74,3 +67,34 @@ function checkUnlocks() {
     }
   });
 }
+
+//เอฟเฟกต์ตัวเลข +1 ลอยตามเมาส์
+function createFloatingEffect(x, y) {
+    // 1. สร้าง HTML <div> ขึ้นมากลางอากาศด้วย JS
+    const floatEl = document.createElement('div');
+    floatEl.className = 'float-text';
+    
+    // 2. สุ่มรูปไอคอน แปะคู่กับtext +1
+    const icons = ['icon_bun_8bit.png', 'icon_strawberry_8bit.png', 'icon_ingredients_8bit.png'];
+    const miniImgSrc = icons[Math.floor(Math.random() * icons.length)];
+    floatEl.innerHTML = `+1 <img src="${miniImgSrc}" alt="mini icon" />`;
+
+    // 3. วางตำแหน่งให้ตรงกับพิกัดเมาส์ (x, y) ที่ผู้ใช้กด
+    floatEl.style.left = `${x - 20}px`;
+    floatEl.style.top = `${y - 20}px`;
+
+    // 4. แปะ Element ลงหน้าเว็บ แล้วสั่งลบพร่องออกเมื่อแอนิเมชันเล่นจบ (800ms ประมาณ 0.8วิ)
+    document.body.appendChild(floatEl);
+    setTimeout(() => {
+        floatEl.remove();
+    }, 800);
+}
+
+// ทุกครั้งที่คลิก ให้เช็กระบบ Auto Click และ เช็ก Unlock ด้วย
+bunBtn.addEventListener("click", (event) => {
+  clicks++;
+  updateDisplay();
+  createFloatingEffect(event.clientX, event.clientY); //ส่งพิกัดเมาส์ไปสร้างเอฟเฟกต์
+  checkAutoClick(); // เรียกใช้โค้ดตรงนี้
+  checkUnlocks(); // จุดที่เช็กเมื่อผู้เล่นกดคลิก
+});
