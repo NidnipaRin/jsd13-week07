@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <!-- 1. ฝั่งซ้าย: Click & Info Panel -->
   <div class="left-panel" id="clickPanel">
     <div class="header-info">
@@ -33,14 +34,74 @@
     </div>
   </div>
 
-  <!-- 2. ฝั่งกลาง: Center Panel (เดี๋ยวเราจะมาต่อกล่องรางวัลกัน) -->
+
+  <!-- 2. ฝั่งกลาง: Story & Unlocked Display Area -->
   <div class="center-panel">
-    <!-- ใส่เนื้อหาฝั่งกลาง -->
+    
+    <!-- ภาพปลดล็อก 10 Clicks -->
+    <div class="unlocked-img-box" id="display-10">
+      <img src="unlock_10.png" alt="10 Clicks Reward">
+    </div>
+
+    <!-- ภาพปลดล็อก 50 Clicks -->
+    <div class="unlocked-img-box" id="display-50">
+      <img src="unlock_50.png" alt="50 Clicks Reward">
+    </div>
+
+    <!-- กล่องข้อความหลัก -->
+    <div class="story-card">
+      <h2>STRAWBERRY BAKERY</h2>
+      <p>คลิกที่ขนมปังเพื่ออบขนมและขยายกิจการร้านขนมปังของคุณ!</p>
+    </div>
+
+    <!-- ภาพปลดล็อก 100 Clicks -->
+    <div class="unlocked-img-box" id="display-100">
+      <img src="unlock_100.png" alt="100 Clicks Reward">
+    </div>
+
+    <!-- ภาพปลดล็อก 150 Clicks -->
+    <div class="unlocked-img-box" id="display-150">
+      <img src="unlock_150.png" alt="150 Clicks Reward">
+    </div>
+
   </div>
 
-  <!-- 3. ฝั่งขวา: Shop Panel (เดี๋ยวเราจะมาต่อ Shop Items กัน) -->
+
+ <!-- 3. ฝั่งขวา: Unlocks / Shop Panel -->
   <div class="right-panel">
-    <!-- ใส่เนื้อหาฝั่งขวา -->
+    <div class="shop-title">UNLOCKS</div>
+
+    <div class="shop-item" id="item-10">
+      <img src="icon_bun_8bit.png" alt="Bun Icon">
+      <div class="item-info">
+        <h3>10 Clicks</h3>
+        <p>เปิดร้านขนมปังวันแรก</p>
+      </div>
+    </div>
+
+    <div class="shop-item" id="item-50">
+      <img src="icon_ingredients_8bit.png" alt="Ingredients">
+      <div class="item-info">
+        <h3>50 Clicks</h3>
+        <p>วัตถุดิบพรีเมียม (ปลดล็อก Auto Click +1/sec! 🍓)</p>
+      </div>
+    </div>
+
+    <div class="shop-item" id="item-100">
+      <img src="icon_staff_8bit.png" alt="Staff">
+      <div class="item-info">
+        <h3>100 Clicks</h3>
+        <p>จ้างเชฟและพนักงานขายประจำร้าน</p>
+      </div>
+    </div>
+
+    <div class="shop-item" id="item-150">
+      <img src="icon_customers_8bit.png" alt="Customers">
+      <div class="item-info">
+        <h3>150 Clicks</h3>
+        <p>ลูกค้าต่อคิวแน่นร้าน!</p>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>

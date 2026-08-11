@@ -1,0 +1,9 @@
+body {
+  display: flex;
+  height: 100vh; /* ความสูงเต็มหน้าจอ */
+}
+
+/* กำหนดสัดส่วนความกว้างของแต่ละฝั่ง */
+.left-panel   { flex: 1.2; }
+.center-panel { flex: 1.2; }
+.right-panel  { flex: 1; }
